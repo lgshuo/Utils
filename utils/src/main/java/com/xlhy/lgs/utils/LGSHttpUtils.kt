@@ -521,5 +521,25 @@ object LGSHttpUtils {
                 }
             })
     }
+    fun postJsonExecute(
+        url: String,
+        httpHeaders: HttpHeaders?,
+        jsonString: String?,
+        block: onSuccess<Unit>? = null,
+        errorBlock: onFailed<Unit>? = null,
+    ): String? {
 
+        val JSON = MediaType.parse("application/json; charset=utf-8");
+        try {
+            val body = RequestBody.create(JSON, jsonString);
+            return OkGo.post<String>(url)
+                .tag(this)
+                .headers(httpHeaders)
+                .upRequestBody(body)
+                .execute().body()?.string()
+        }catch (e:java.lang.Exception){
+            e.printStackTrace()
+        }
+        return ""
+    }
 }
