@@ -196,6 +196,18 @@ object LGSHttpUtils {
                     }
                 }
 
+                override fun onCacheSuccess(response: Response<String>?) {
+                    try {
+                        response?.body()?.let {
+                            block?.invoke(it)
+                            return
+                        }
+                        errorBlock?.invoke("返回内容为空")
+                    } catch (e: Exception) {
+                        errorBlock?.invoke(e.stackTrace.toString())
+                    }
+                }
+
                 override fun onError(response: Response<String>?) {
                     super.onError(response)
                     try {
