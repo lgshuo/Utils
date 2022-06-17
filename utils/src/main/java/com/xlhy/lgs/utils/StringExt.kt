@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import com.blankj.utilcode.util.ToastUtils
 
 /**
  * 吐司
@@ -14,25 +15,14 @@ import android.widget.Toast
 /**
  * 如果这行报错就在application里写LGSContextUtils.install(this)
  */
-var toast = Toast.makeText(LGSContextUtils.context, "", Toast.LENGTH_LONG)
-var mHandler = Handler(Looper.getMainLooper())
-fun Any?.show(context: Context? = LGSContextUtils.context, during: Int = Toast.LENGTH_LONG) {
-    context?.let {
-        this?.let {
-            mHandler.post {
-                toast.setText(this.toString())
-                toast!!.show()
-                mHandler.postDelayed({
-                   toast.cancel()
-                }, 3000)
-            }
 
-            return
-        }
-        Toast.makeText(context, "null", during).show()
-        return
+
+fun Any?.show(context: Context? = LGSContextUtils.context) {
+    if (this == null) {
+        ToastUtils.showShort("null")
+    }else{
+        ToastUtils.showShort(toString())
     }
-    throw Exception("context is null,you should use LGSUtils.install(context) in Application or use param context")
 }
 
 /**
