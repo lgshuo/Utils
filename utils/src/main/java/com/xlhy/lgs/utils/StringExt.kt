@@ -17,7 +17,7 @@ import com.blankj.utilcode.util.ToastUtils
  */
 
 
-fun Any?.show(context: Context? = LGSContextUtils.context) {
+fun Any?.show() {
     if (this == null) {
         ToastUtils.showShort("null")
     }else{
@@ -45,7 +45,7 @@ fun Any?.log(tag: String = "", level: Level = Level.E) {
         Log.e(tag, "null")
         return
     }
-    if (isDebug(LGSContextUtils.context)) {
+    if (isDebug()) {
         when (level) {
             Level.E -> Log.e("LGSLog:${tag}", this.toString())
             Level.V -> Log.v("LGSLog:${tag}", this.toString())
@@ -57,8 +57,8 @@ fun Any?.log(tag: String = "", level: Level = Level.E) {
 }
 
 
-fun isDebug(context: Context?): Boolean {
-    context?.let {
+fun isDebug(): Boolean {
+    LGSContextUtils.context?.let {
         return it.getApplicationInfo() != null &&
                 it.getApplicationInfo().flags and ApplicationInfo.FLAG_DEBUGGABLE !== 0
     }
